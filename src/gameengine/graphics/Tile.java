@@ -30,6 +30,20 @@ public class Tile
         }
     }
 
+    Tile(char c)
+    {
+        switch (c)
+        {
+            case '1':
+                color = Color.BLACK;
+                break;
+            case ' ':
+            case '0':
+                color = Color.WHITE;
+                break;
+        }
+    }
+
     public Color getColor()
     {
         return color;

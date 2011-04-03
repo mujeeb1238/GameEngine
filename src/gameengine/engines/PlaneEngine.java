@@ -13,7 +13,7 @@ import gameengine.graphics.Tile;
  */
 public class PlaneEngine
 {
-    private boolean debug = true;
+    private boolean debug = false;
     private Plane[] planes;
     private int planesWidth;
     private int planesHeight;
@@ -79,6 +79,19 @@ public class PlaneEngine
         for (int i = 0; i < planesNumber; i++)
         {
             planes[i] = new Plane(i, planesWidth, planesHeight);
+        }
+    }
+
+    public PlaneEngine(char[][][] level)
+    {
+        this.planesNumber = level.length;
+        this.planesWidth = level[0].length;
+        this.planesHeight = level[0][0].length;
+
+        planes = new Plane[planesNumber];
+        for (int i = 0; i < planesNumber; i++)
+        {
+            planes[i] = new Plane(i, level[i]);
         }
     }
 

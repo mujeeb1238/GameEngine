@@ -1,14 +1,12 @@
 package gameengine.display;
 
+import gameengine.engines.LevelEngine;
 import gameengine.engines.PlaneEngine;
-import gameengine.engines.TileEngine;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
@@ -22,7 +20,7 @@ public class ApplicationFrame extends JFrame implements Runnable
 
     private BufferStrategy strategy;
     private static PlaneEngine thePlaneEngine;
-    private static TileEngine theTileEngine;
+    private static LevelEngine theLevelEngine;
     private static boolean gameRunning = true;
     private static int width;
     private static int height;
@@ -61,8 +59,9 @@ public class ApplicationFrame extends JFrame implements Runnable
 
     private void initEngines()
     {
-        thePlaneEngine = new PlaneEngine(2, 100, 100);
-        theTileEngine = new TileEngine();
+        theLevelEngine = new LevelEngine();
+        theLevelEngine.load("level-1-plane-0.lvl");
+        thePlaneEngine = new PlaneEngine(theLevelEngine.getLevel());
     }
 
     public void run()
@@ -72,7 +71,7 @@ public class ApplicationFrame extends JFrame implements Runnable
             try
             {
                 draw();
-                Thread.sleep(1);
+                Thread.sleep(10);
             }
             catch (InterruptedException ex)
             {
