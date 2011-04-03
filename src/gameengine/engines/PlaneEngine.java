@@ -20,7 +20,6 @@ public class PlaneEngine
     private int planesWidth;
     private int planesHeight;
     private int planesNumber;
-    private int tileSize = 32;
     private int cameraXPosition = 0;
     private int cameraYPosition = 0;
 
@@ -42,11 +41,6 @@ public class PlaneEngine
     public int getCameraYPosition()
     {
         return cameraYPosition;
-    }
-
-    public int getTileSize()
-    {
-        return tileSize;
     }
 
     public Plane[] getPlanes()

@@ -4,6 +4,7 @@
  */
 package gameengine.engines;
 
+import gameegine.players.MainPlayer;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -19,12 +20,23 @@ import java.util.logging.Logger;
  */
 public class LevelEngine
 {
-
+    private int tileSize = 32;
     private char[][][] level;
+    private MainPlayer theMainPlayer = new MainPlayer();
+
+    public int getTileSize()
+    {
+        return tileSize;
+    }
 
     public char[][][] getLevel()
     {
         return level;
+    }
+
+    public MainPlayer getTheMainPlayer()
+    {
+        return theMainPlayer;
     }
 
     public void load(String levelName, int planeNumber)
@@ -73,11 +85,18 @@ public class LevelEngine
                 for (int j = 0; j < buffer.get(i).size(); j++)
                 {
                     System.out.print(buffer.get(i).get(j) + " ");
-                    
+
                     level[p][j][i] = buffer.get(i).get(j);
+                    if (buffer.get(i).get(j).equals('x'))
+                    {
+                        theMainPlayer.setX(j * tileSize);
+                        theMainPlayer.setY(i * tileSize);
+                        level[p][j][i] = '0';
+                    }
                 }
             }
             System.out.println("");
+            System.out.println(theMainPlayer);
         }
     }
 }

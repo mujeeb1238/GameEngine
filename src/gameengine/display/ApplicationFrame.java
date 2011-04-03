@@ -3,6 +3,7 @@ package gameengine.display;
 import gameegine.players.MainPlayer;
 import gameengine.engines.LevelEngine;
 import gameengine.engines.PlaneEngine;
+import gameengine.graphics.Tile;
 import gameengine.listeners.InputKeyManager;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,7 +27,6 @@ public class ApplicationFrame extends JFrame implements Runnable
     private static boolean gameRunning = true;
     private static int width;
     private static int height;
-    private static MainPlayer thePlayer;
 
     public ApplicationFrame(String title, int aWidth, int aHeight)
     {
@@ -34,7 +34,6 @@ public class ApplicationFrame extends JFrame implements Runnable
 
         width = aWidth;
         height = aHeight;
-        thePlayer = new MainPlayer();
 
         createUI();
         initEngines();
@@ -44,7 +43,6 @@ public class ApplicationFrame extends JFrame implements Runnable
         createBufferStrategy(2);
         strategy = getBufferStrategy();
         addWindowListener(new ApplicationFrameListener());
-        addKeyListener(new InputKeyManager(thePlayer));
     }
 
     private void createUI()
@@ -67,6 +65,7 @@ public class ApplicationFrame extends JFrame implements Runnable
         theLevelEngine = new LevelEngine();
         theLevelEngine.load("level-1", 3);
         thePlaneEngine = new PlaneEngine(theLevelEngine.getLevel());
+        addKeyListener(new InputKeyManager(theLevelEngine.getTheMainPlayer()));
 
     }
 
@@ -89,6 +88,20 @@ public class ApplicationFrame extends JFrame implements Runnable
     public void draw()
     {
         Graphics2D backBuffer = (Graphics2D) strategy.getDrawGraphics();
+        
+        drawScene(backBuffer);
+        drawCharacters(backBuffer);
+
+        backBuffer.dispose();
+        strategy.show();
+
+        thePlaneEngine.updatePosition(theLevelEngine.getTheMainPlayer());
+    }
+
+    public void drawScene(Graphics2D backBuffer)
+    {
+        int startX = 0;
+        int startY = 0;
 
         Color[] colors =
         {
@@ -101,21 +114,21 @@ public class ApplicationFrame extends JFrame implements Runnable
 
         for (int z = thePlaneEngine.getPlanesNumber() - 1; z >= 0; z--)
         {
-            for (int x = 0; x < thePlaneEngine.getPlanesWidth(); x++)
+            for (int x = startX; x < thePlaneEngine.getPlanesWidth(); x++)
             {
-                for (int y = 0; y < thePlaneEngine.getPlanesHeight(); y++)
+                for (int y = startY; y < thePlaneEngine.getPlanesHeight(); y++)
                 {
                     // affiche l'image
-                    Color tileColor = thePlaneEngine.getTile(z, x, y).getColor();
-                    if (tileColor != Color.WHITE)
+                    Tile tile = thePlaneEngine.getTile(z, x, y);
+                    if (tile.isCollision())
                     {
-                        backBuffer.setColor(tileColor);
+                        backBuffer.setColor(tile.getColor());
 
                         backBuffer.fillRect(
-                                (x * thePlaneEngine.getTileSize()) - thePlaneEngine.getCameraXPosition() / (z + 1),
-                                (y * thePlaneEngine.getTileSize()) - thePlaneEngine.getCameraYPosition() / (z + 1),
-                                thePlaneEngine.getTileSize(),
-                                thePlaneEngine.getTileSize());
+                                (x * theLevelEngine.getTileSize()) - thePlaneEngine.getCameraXPosition() / (z + 1),
+                                (y * theLevelEngine.getTileSize()) - thePlaneEngine.getCameraYPosition() / (z + 1),
+                                theLevelEngine.getTileSize(),
+                                theLevelEngine.getTileSize());
                     }
 
                     // affiche la grille
@@ -123,45 +136,29 @@ public class ApplicationFrame extends JFrame implements Runnable
                     {
                         backBuffer.setColor(colors[z]);
                         Rectangle2D rectangle2 = new Rectangle2D.Double(
-                                (x * thePlaneEngine.getTileSize()) - thePlaneEngine.getCameraXPosition() / (z + 1),
-                                (y * thePlaneEngine.getTileSize()) - thePlaneEngine.getCameraYPosition() / (z + 1),
-                                thePlaneEngine.getTileSize(),
-                                thePlaneEngine.getTileSize());
+                                (x * theLevelEngine.getTileSize()) - thePlaneEngine.getCameraXPosition() / (z + 1),
+                                (y * theLevelEngine.getTileSize()) - thePlaneEngine.getCameraYPosition() / (z + 1),
+                                theLevelEngine.getTileSize(),
+                                theLevelEngine.getTileSize());
 
                         backBuffer.draw(rectangle2);
                     }
                 }
-
             }
         }
 
-        backBuffer.dispose();
-        strategy.show();
 
-        thePlaneEngine.updatePosition(thePlayer);
     }
 
-    public void windowOpened(WindowEvent e)
+    public void drawCharacters(Graphics2D backBuffer)
     {
-    }
-
-    public void windowClosed(WindowEvent e)
-    {
-    }
-
-    public void windowIconified(WindowEvent e)
-    {
-    }
-
-    public void windowDeiconified(WindowEvent e)
-    {
-    }
-
-    public void windowActivated(WindowEvent e)
-    {
-    }
-
-    public void windowDeactivated(WindowEvent e)
-    {
+        MainPlayer thePlayer = theLevelEngine.getTheMainPlayer();
+        backBuffer.setColor(Color.RED);
+        backBuffer.fillRect(
+                (thePlayer.getX()),
+                (thePlayer.getY()),
+                theLevelEngine.getTileSize(),
+                theLevelEngine.getTileSize());
+        
     }
 }
