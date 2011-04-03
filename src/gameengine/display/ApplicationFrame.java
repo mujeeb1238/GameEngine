@@ -1,7 +1,9 @@
 package gameengine.display;
 
+import gameegine.players.MainPlayer;
 import gameengine.engines.LevelEngine;
 import gameengine.engines.PlaneEngine;
+import gameengine.listeners.InputKeyManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -24,14 +26,16 @@ public class ApplicationFrame extends JFrame implements Runnable
     private static boolean gameRunning = true;
     private static int width;
     private static int height;
-    
+    private static MainPlayer thePlayer;
+
     public ApplicationFrame(String title, int aWidth, int aHeight)
     {
         super(title);
 
         width = aWidth;
         height = aHeight;
-        
+        thePlayer = new MainPlayer();
+
         createUI();
         initEngines();
         setVisible(true);
@@ -40,6 +44,7 @@ public class ApplicationFrame extends JFrame implements Runnable
         createBufferStrategy(2);
         strategy = getBufferStrategy();
         addWindowListener(new ApplicationFrameListener());
+        addKeyListener(new InputKeyManager(thePlayer));
     }
 
     private void createUI()
@@ -60,8 +65,9 @@ public class ApplicationFrame extends JFrame implements Runnable
     private void initEngines()
     {
         theLevelEngine = new LevelEngine();
-        theLevelEngine.load("level-1", 2);
+        theLevelEngine.load("level-1", 3);
         thePlaneEngine = new PlaneEngine(theLevelEngine.getLevel());
+
     }
 
     public void run()
@@ -83,7 +89,7 @@ public class ApplicationFrame extends JFrame implements Runnable
     public void draw()
     {
         Graphics2D backBuffer = (Graphics2D) strategy.getDrawGraphics();
-        
+
         Color[] colors =
         {
             Color.BLUE, Color.RED, Color.GREEN, Color.BLACK, Color.PINK
@@ -131,8 +137,8 @@ public class ApplicationFrame extends JFrame implements Runnable
 
         backBuffer.dispose();
         strategy.show();
-        
-        thePlaneEngine.updatePosition();
+
+        thePlaneEngine.updatePosition(thePlayer);
     }
 
     public void windowOpened(WindowEvent e)

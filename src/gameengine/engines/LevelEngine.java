@@ -77,6 +77,7 @@ public class LevelEngine
                     level[p][j][i] = buffer.get(i).get(j);
                 }
             }
+            System.out.println("");
         }
     }
 }

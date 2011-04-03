@@ -4,6 +4,7 @@
  */
 package gameengine.engines;
 
+import gameegine.players.MainPlayer;
 import gameengine.graphics.Plane;
 import gameengine.graphics.Tile;
 
@@ -13,6 +14,7 @@ import gameengine.graphics.Tile;
  */
 public class PlaneEngine
 {
+
     private boolean debug = false;
     private Plane[] planes;
     private int planesWidth;
@@ -21,9 +23,9 @@ public class PlaneEngine
     private int tileSize = 32;
     private int cameraXPosition = 0;
     private int cameraYPosition = 0;
-    private int averageXSpeed = 1;
+    private int averageXSpeed = 0;
     private int averageYSpeed = 0;
-    
+
     public boolean isDebug()
     {
         return debug;
@@ -68,13 +70,13 @@ public class PlaneEngine
     {
         return planesWidth;
     }
-    
+
     public PlaneEngine(int planesNumber, int planesWidth, int planesHeight)
     {
         this.planesNumber = planesNumber;
         this.planesWidth = planesWidth;
         this.planesHeight = planesHeight;
-        
+
         planes = new Plane[planesNumber];
         for (int i = 0; i < planesNumber; i++)
         {
@@ -95,11 +97,12 @@ public class PlaneEngine
         }
     }
 
-    public void updatePosition()
+    public void updatePosition(MainPlayer thePlayer)
     {
-        this.cameraXPosition += averageXSpeed;
-        this.cameraYPosition += averageYSpeed;
+        this.cameraXPosition += thePlayer.getxSpeed();
+        this.cameraYPosition += thePlayer.getySpeed();
     }
+
 
     public Tile getTile(int z, int x, int y)
     {

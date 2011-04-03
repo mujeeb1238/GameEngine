@@ -12,6 +12,7 @@ public class Tile
 
     private TileName name;
     private Color color = Color.WHITE;
+    private boolean collision = true;
 
     public Tile(TileName theTileName)
     {
@@ -40,13 +41,22 @@ public class Tile
             case '2':
                 color = Color.GRAY;
                 break;
+            case '3':
+                color = Color.LIGHT_GRAY;
+                break;
             case ' ':
             case '0':
                 color = Color.WHITE;
+                collision = false;
                 break;
         }
     }
 
+    public boolean isCollision()
+    {
+        return collision;
+    }
+    
     public Color getColor()
     {
         return color;
