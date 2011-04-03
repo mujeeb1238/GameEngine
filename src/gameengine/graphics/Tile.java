@@ -37,6 +37,9 @@ public class Tile
             case '1':
                 color = Color.BLACK;
                 break;
+            case '2':
+                color = Color.GRAY;
+                break;
             case ' ':
             case '0':
                 color = Color.WHITE;

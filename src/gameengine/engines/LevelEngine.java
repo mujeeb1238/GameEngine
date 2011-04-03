@@ -27,52 +27,55 @@ public class LevelEngine
         return level;
     }
 
-    public void load(String levelFileName)
+    public void load(String levelName, int planeNumber)
     {
-        ArrayList<ArrayList<Character>> buffer = new ArrayList<ArrayList<Character>>();
 
-        try
+        for (int p = 0; p < planeNumber; p++)
         {
-            String fullLevelFileName = "gameengine/levels/" + levelFileName;
-            //            FileInputStream fstrem = new FileInputStream(levelFileName);
-            InputStream fstream = this.getClass().getClassLoader().getResourceAsStream(fullLevelFileName);
-            System.out.println(fstream != null);
-            DataInputStream in = new DataInputStream(fstream);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String line;
-            int lineNumber = 0;
-            
-            while ((line = br.readLine()) != null)
+            ArrayList<ArrayList<Character>> buffer = new ArrayList<ArrayList<Character>>();
+            try
             {
-                ArrayList<Character> bufferLine = new ArrayList<Character>();
-                
-                for (int i = 0; i < line.length(); i++)
+                String fullLevelFileName = "gameengine/levels/" + levelName + "-plane-" + p + ".lvl";
+                //            FileInputStream fstrem = new FileInputStream(levelFileName);
+                InputStream fstream = this.getClass().getClassLoader().getResourceAsStream(fullLevelFileName);
+                System.out.println(fstream != null);
+                DataInputStream in = new DataInputStream(fstream);
+                BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                String line;
+                int lineNumber = 0;
+
+                while ((line = br.readLine()) != null)
                 {
-                    bufferLine.add(line.charAt(i));
+                    ArrayList<Character> bufferLine = new ArrayList<Character>();
+
+                    for (int i = 0; i < line.length(); i++)
+                    {
+                        bufferLine.add(line.charAt(i));
+                    }
+
+                    buffer.add(bufferLine);
+                    lineNumber++;
                 }
-                
-                buffer.add(bufferLine);
-                lineNumber++;
             }
-        }
-        catch (IOException ex)
-        {
-            Logger.getLogger(LevelEngine.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // remise en forme
-        System.out.println(buffer.size());
-        System.out.println(buffer.get(0).size());
-
-        level = new char[1][buffer.get(0).size()][buffer.size()];
-        System.out.println(buffer.get(0).size());
-
-        for (int i = 0; i < buffer.size(); i++)
-        {
-            for (int j = 0; j < buffer.get(i).size(); j++)
+            catch (IOException ex)
             {
-                System.out.println(i + " " + j);
-                level[0][j][i] = buffer.get(i).get(j);
+                Logger.getLogger(LevelEngine.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (level == null)
+            {
+                level = new char[planeNumber][buffer.get(0).size()][buffer.size()];
+            }
+
+            for (int i = 0; i < buffer.size(); i++)
+            {
+                System.out.println("");
+                for (int j = 0; j < buffer.get(i).size(); j++)
+                {
+                    System.out.print(buffer.get(i).get(j) + " ");
+                    
+                    level[p][j][i] = buffer.get(i).get(j);
+                }
             }
         }
     }

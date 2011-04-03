@@ -60,7 +60,7 @@ public class ApplicationFrame extends JFrame implements Runnable
     private void initEngines()
     {
         theLevelEngine = new LevelEngine();
-        theLevelEngine.load("level-1-plane-0.lvl");
+        theLevelEngine.load("level-1", 2);
         thePlaneEngine = new PlaneEngine(theLevelEngine.getLevel());
     }
 
