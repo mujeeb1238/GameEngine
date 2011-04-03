@@ -3,13 +3,13 @@ package gameengine.display;
 import gameegine.players.MainPlayer;
 import gameengine.engines.LevelEngine;
 import gameengine.engines.PlaneEngine;
+import gameengine.engines.PlayerEngine;
 import gameengine.graphics.Tile;
 import gameengine.listeners.InputKeyManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
@@ -24,6 +24,7 @@ public class ApplicationFrame extends JFrame implements Runnable
     private BufferStrategy strategy;
     private static PlaneEngine thePlaneEngine;
     private static LevelEngine theLevelEngine;
+    private static PlayerEngine thePlayerEngine;
     private static boolean gameRunning = true;
     private static int width;
     private static int height;
@@ -65,7 +66,8 @@ public class ApplicationFrame extends JFrame implements Runnable
         theLevelEngine = new LevelEngine();
         theLevelEngine.load("level-1", 3);
         thePlaneEngine = new PlaneEngine(theLevelEngine.getLevel());
-        addKeyListener(new InputKeyManager(theLevelEngine.getTheMainPlayer()));
+        thePlayerEngine = new PlayerEngine(theLevelEngine.getTheMainPlayer());
+        addKeyListener(new InputKeyManager(thePlayerEngine));
 
     }
 
@@ -95,7 +97,7 @@ public class ApplicationFrame extends JFrame implements Runnable
         backBuffer.dispose();
         strategy.show();
 
-        thePlaneEngine.updatePosition(theLevelEngine.getTheMainPlayer());
+        thePlaneEngine.updatePosition(thePlayerEngine.getPlayer());
     }
 
     public void drawScene(Graphics2D backBuffer)

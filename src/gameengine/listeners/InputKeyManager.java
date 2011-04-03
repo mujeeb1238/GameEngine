@@ -1,6 +1,7 @@
 package gameengine.listeners;
 
 import gameegine.players.MainPlayer;
+import gameengine.engines.PlayerEngine;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -15,11 +16,11 @@ import java.awt.event.KeyListener;
 public class InputKeyManager implements KeyListener
 {
 
-    private static MainPlayer player;
+    private static PlayerEngine thePlayerEngine;
 
-    public InputKeyManager(MainPlayer thePlayer)
+    public InputKeyManager(PlayerEngine aPlayerEngine)
     {
-        player = thePlayer;
+        thePlayerEngine = aPlayerEngine;
     }
 
     public void keyTyped(KeyEvent e)
@@ -31,17 +32,17 @@ public class InputKeyManager implements KeyListener
         switch (e.getKeyCode())
         {
             case KeyEvent.VK_RIGHT:
-                player.setxSpeed(2);
+                thePlayerEngine.walkRight();
                 break;
             case KeyEvent.VK_LEFT:
-                player.setxSpeed(-2);
+                thePlayerEngine.walkLeft();
                 break;
 
             case KeyEvent.VK_UP:
-                player.setySpeed(-2);
+                thePlayerEngine.walkUp();
                 break;
             case KeyEvent.VK_DOWN:
-                player.setySpeed(2);
+                thePlayerEngine.walkDown();
                 break;
 
         }
@@ -54,11 +55,11 @@ public class InputKeyManager implements KeyListener
         {
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_LEFT:
-                player.setxSpeed(0);
+                thePlayerEngine.stopH();
                 break;
             case KeyEvent.VK_UP:
             case KeyEvent.VK_DOWN:
-                player.setySpeed(0);
+                thePlayerEngine.stopV();
                 break;
 
 

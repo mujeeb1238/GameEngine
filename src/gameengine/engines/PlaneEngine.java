@@ -91,8 +91,24 @@ public class PlaneEngine
 
     public void updatePosition(MainPlayer thePlayer)
     {
-        this.cameraXPosition += thePlayer.getxSpeed();
-        this.cameraYPosition += thePlayer.getySpeed();
+        switch(thePlayer.getXStatus())
+        {
+            case WALK_RIGHT:
+                this.cameraXPosition += thePlayer.getxSpeed();
+                break;
+            case WALK_LEFT:
+                this.cameraXPosition -= thePlayer.getxSpeed();
+                break;
+        }
+
+        switch(thePlayer.getYStatus())
+        {
+            case WALK_UP:
+                this.cameraYPosition -= thePlayer.getySpeed();
+                break;
+            case WALK_DOWN:
+                this.cameraYPosition += thePlayer.getySpeed();
+        }
     }
 
 

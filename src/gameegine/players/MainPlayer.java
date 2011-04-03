@@ -4,6 +4,7 @@
  */
 package gameegine.players;
 
+import gameengine.enums.PlayerStatus;
 import java.awt.Color;
 
 /**
@@ -12,11 +13,23 @@ import java.awt.Color;
  */
 public class MainPlayer
 {
-    private int xSpeed = 0;
-    private int ySpeed = 0;
+    private PlayerStatus xStatus = PlayerStatus.STOP_RIGHT;
+    private PlayerStatus yStatus = PlayerStatus.STOP_UP;
+    private int xSpeed = 2;
+    private int ySpeed = 2;
     private int x, y;
     private Color color = Color.RED;
 
+    public PlayerStatus getXStatus()
+    {
+        return xStatus;
+    }
+
+    public PlayerStatus getYStatus()
+    {
+        return yStatus;
+    }
+    
     public int getX()
     {
         return x;
@@ -62,6 +75,62 @@ public class MainPlayer
         return color;
     }
 
+    public void walkRight()
+    {
+        if (this.xStatus != PlayerStatus.WALK_RIGHT)
+        {
+            this.xStatus = PlayerStatus.WALK_RIGHT;
+        }
+    }
+
+    public void walkLeft()
+    {
+        if (this.xStatus != PlayerStatus.WALK_LEFT)
+        {
+            this.xStatus = PlayerStatus.WALK_LEFT;
+        }
+    }
+
+    public void walkUp()
+    {
+        if (this.yStatus != PlayerStatus.WALK_UP)
+        {
+            this.yStatus = PlayerStatus.WALK_UP;
+        }
+    }
+
+    public void walkDown()
+    {
+        if (this.yStatus != PlayerStatus.WALK_DOWN)
+        {
+            this.yStatus = PlayerStatus.WALK_DOWN;
+        }
+    }
+
+    public void stopH()
+    {
+        if (this.xStatus == PlayerStatus.WALK_RIGHT)
+        {
+            this.xStatus = PlayerStatus.STOP_RIGHT;
+        }
+        else if (this.xStatus == PlayerStatus.WALK_LEFT)
+        {
+            this.xStatus = PlayerStatus.STOP_LEFT;
+        }
+    }
+
+    public void stopV()
+    {
+        if (this.yStatus == PlayerStatus.WALK_UP)
+        {
+            this.yStatus = PlayerStatus.STOP_UP;
+        }
+        else if (this.yStatus == PlayerStatus.WALK_DOWN)
+        {
+            this.yStatus = PlayerStatus.STOP_DOWN;
+        }
+    }
+
     public void updatePosition()
     {
 //        x += xSpeed;
@@ -71,6 +140,6 @@ public class MainPlayer
     @Override
     public String toString()
     {
-       return "PLAYER x:" + this.getX() + " y:" + this.getY();
+        return "PLAYER x:" + this.getX() + " y:" + this.getY();
     }
 }
