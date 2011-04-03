@@ -23,8 +23,6 @@ public class PlaneEngine
     private int tileSize = 32;
     private int cameraXPosition = 0;
     private int cameraYPosition = 0;
-    private int averageXSpeed = 0;
-    private int averageYSpeed = 0;
 
     public boolean isDebug()
     {
