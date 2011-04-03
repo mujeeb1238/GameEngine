@@ -15,7 +15,7 @@ import gameengine.graphics.Tile;
 public class PlaneEngine
 {
 
-    private boolean debug = false;
+    private boolean debug = true;
     private Plane[] planes;
     private int planesWidth;
     private int planesHeight;
@@ -91,23 +91,34 @@ public class PlaneEngine
 
     public void updatePosition(MainPlayer thePlayer)
     {
+        int planeX, planeY;
+        
+        planeX = (int) Math.floor((thePlayer.getX() + cameraXPosition) / 32);
+        planeY = (int) Math.floor((thePlayer.getY() + cameraYPosition) / 32);
+        int playerWidthCells = (int) Math.floor(thePlayer.getWidth() / 32);
+        int playerHeighCells = (int) Math.floor(thePlayer.getHeight() / 32);
+
         switch(thePlayer.getXStatus())
         {
             case WALK_RIGHT:
-                this.cameraXPosition += thePlayer.getxSpeed();
+                if (! planes[0].getTile(planeX + playerWidthCells, planeY).isCollision())
+                    this.cameraXPosition += thePlayer.getxSpeed();
                 break;
             case WALK_LEFT:
-                this.cameraXPosition -= thePlayer.getxSpeed();
+                if (! planes[0].getTile(planeX, planeY).isCollision())
+                    this.cameraXPosition -= thePlayer.getxSpeed();
                 break;
         }
 
         switch(thePlayer.getYStatus())
         {
             case WALK_UP:
-                this.cameraYPosition -= thePlayer.getySpeed();
+                if (! planes[0].getTile(planeX, planeY).isCollision())
+                    this.cameraYPosition -= thePlayer.getySpeed();
                 break;
             case WALK_DOWN:
-                this.cameraYPosition += thePlayer.getySpeed();
+                if (! planes[0].getTile(planeX, planeY + playerHeighCells).isCollision())
+                    this.cameraYPosition += thePlayer.getySpeed();
         }
     }
 

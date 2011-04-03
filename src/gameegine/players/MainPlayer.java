@@ -13,12 +13,33 @@ import java.awt.Color;
  */
 public class MainPlayer
 {
+    private int width = 32, height = 32;
     private PlayerStatus xStatus = PlayerStatus.STOP_RIGHT;
     private PlayerStatus yStatus = PlayerStatus.STOP_UP;
     private int xSpeed = 2;
     private int ySpeed = 2;
     private int x, y;
     private Color color = Color.RED;
+
+    public int getHeight()
+    {
+        return height;
+    }
+
+    public void setHeight(int height)
+    {
+        this.height = height;
+    }
+
+    public int getWidth()
+    {
+        return width;
+    }
+
+    public void setWidth(int width)
+    {
+        this.width = width;
+    }
 
     public PlayerStatus getXStatus()
     {

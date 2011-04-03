@@ -159,8 +159,8 @@ public class ApplicationFrame extends JFrame implements Runnable
         backBuffer.fillRect(
                 (thePlayer.getX()),
                 (thePlayer.getY()),
-                theLevelEngine.getTileSize(),
-                theLevelEngine.getTileSize());
+                thePlayer.getWidth(),
+                thePlayer.getHeight());
         
     }
 }
