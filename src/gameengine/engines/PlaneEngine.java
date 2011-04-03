@@ -15,7 +15,7 @@ import gameengine.graphics.Tile;
 public class PlaneEngine
 {
 
-    private boolean debug = true;
+    private boolean debug = false;
     private Plane[] planes;
     private int planesWidth;
     private int planesHeight;
