@@ -15,9 +15,9 @@ public class MainPlayer
 {
     private int width = 32, height = 32;
     private PlayerStatus xStatus = PlayerStatus.STOP_RIGHT;
-    private PlayerStatus yStatus = PlayerStatus.WALK_DOWN;
-    private int xSpeed = 2;
-    private int ySpeed = 4;
+    private PlayerStatus yStatus = PlayerStatus.STOP_UP;
+    private int xSpeed = 1;
+    private int ySpeed = 1;
     private int x, y;
     private Color color = Color.RED;
 

@@ -91,34 +91,63 @@ public class PlaneEngine
 
     public void updatePosition(MainPlayer thePlayer)
     {
-        int planeX, planeY;
-        
-        planeX = (int) Math.floor((thePlayer.getX() + cameraXPosition) / 32);
-        planeY = (int) Math.floor((thePlayer.getY() + cameraYPosition) / 32);
+        // gestion des quatres coins du player
+        /*
+         *  http://www.cokeandcode.com/collisiontilemaps
+         * 
+         *  °-------°
+         *  |       |
+         *  |       |
+         *  °-------°
+         */
         int playerWidthCells = (int) Math.floor(thePlayer.getWidth() / 32);
         int playerHeighCells = (int) Math.floor(thePlayer.getHeight() / 32);
 
+        int xTopLeft, xTopRight, xBottomLeft, xBottomRight;
+        int yTopLeft, yTopRight, yBottomLeft, yBottomRight;
+
+        xTopLeft = (thePlayer.getX() + cameraXPosition) / 32;
+        yTopLeft = (thePlayer.getY() + cameraYPosition) / 32;
+        xTopRight = (thePlayer.getX() + cameraXPosition + thePlayer.getWidth()) / 32;
+        yTopRight = (thePlayer.getY() + cameraYPosition) / 32;
+
+        int planeX, planeY;
+        
+        planeX = (int) Math.ceil((thePlayer.getX() + cameraXPosition) / 32);
+        planeY = (int) Math.ceil((thePlayer.getY() + cameraYPosition) / 32);
+        
         switch(thePlayer.getXStatus())
         {
             case WALK_RIGHT:
-                if (! planes[0].getTile(planeX + playerWidthCells, planeY).isCollision())
+//                if (! planes[0].getTile(planeX + playerWidthCells, planeY).isCollision()
+//                        && ! planes[0].getTile(planeX + playerWidthCells, planeY + playerHeighCells).isCollision())
                     this.cameraXPosition += thePlayer.getxSpeed();
+//                else
+//                    System.out.println(planeX + " " + planeY);
                 break;
             case WALK_LEFT:
-                if (! planes[0].getTile(planeX, planeY).isCollision())
+//                if (! planes[0].getTile(planeX, planeY).isCollision()
+//                        && ! planes[0].getTile(planeX, planeY).isCollision())
                     this.cameraXPosition -= thePlayer.getxSpeed();
+//                else
+//                    System.out.println(planeX + " " + planeY);
                 break;
         }
 
         switch(thePlayer.getYStatus())
         {
             case WALK_UP:
-                if (! planes[0].getTile(planeX, planeY).isCollision())
+                if (! planes[0].getTile(xTopLeft, yTopLeft).isCollision()
+                        && ! planes[0].getTile(xTopRight, yTopRight).isCollision())
                     this.cameraYPosition -= thePlayer.getySpeed();
+                else
+                    System.out.println(planeX + " " + planeY);
                 break;
             case WALK_DOWN:
                 if (! planes[0].getTile(planeX, planeY + playerHeighCells).isCollision())
                     this.cameraYPosition += thePlayer.getySpeed();
+                else
+                    System.out.println(planeX + " " + planeY);
         }
     }
 

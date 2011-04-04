@@ -90,14 +90,15 @@ public class ApplicationFrame extends JFrame implements Runnable
     public void draw()
     {
         Graphics2D backBuffer = (Graphics2D) strategy.getDrawGraphics();
-        
+
+        thePlaneEngine.updatePosition(thePlayerEngine.getPlayer());
+
         drawScene(backBuffer);
         drawCharacters(backBuffer);
 
         backBuffer.dispose();
         strategy.show();
 
-        thePlaneEngine.updatePosition(thePlayerEngine.getPlayer());
     }
 
     public void drawScene(Graphics2D backBuffer)
@@ -107,7 +108,7 @@ public class ApplicationFrame extends JFrame implements Runnable
 
         Color[] colors =
         {
-            Color.BLUE, Color.RED, Color.GREEN, Color.BLACK, Color.PINK
+            Color.GREEN, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE
         };
 
         // effacement de l'ecran
@@ -132,7 +133,6 @@ public class ApplicationFrame extends JFrame implements Runnable
                                 theLevelEngine.getTileSize(),
                                 theLevelEngine.getTileSize());
                     }
-
                     // affiche la grille
                     if (thePlaneEngine.isDebug())
                     {
@@ -161,6 +161,6 @@ public class ApplicationFrame extends JFrame implements Runnable
                 (thePlayer.getY()),
                 thePlayer.getWidth(),
                 thePlayer.getHeight());
-        
+
     }
 }
